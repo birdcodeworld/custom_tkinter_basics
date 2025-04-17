@@ -8,6 +8,7 @@ class App(customtkinter.CTk):
 	def __init__(self):
 		super().__init__()
 		self.geometry('900x600')
+		self.grid_columnconfigure(0, weight = 1)
 
 		self.welcome = customtkinter.CTkButton(self, text = 'BirdCode', command = self.button_welcome)
 		self.welcome.grid(row = 0, column = 0, padx = 20, pady = 20)
