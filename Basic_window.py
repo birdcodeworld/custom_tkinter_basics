@@ -9,7 +9,7 @@ class App(customtkinter.CTk):
 	def __init__(self):
 		super().__init__()
 		self.geometry('500x600')
-		self.grid_columnconfigure((0, 1), weight = 1)
+		self.grid_columnconfigure((0, 7), weight = 1)
 
 		self.casual_value = tk.IntVar()
 		self.backyard_value = tk.IntVar()
@@ -25,7 +25,10 @@ class App(customtkinter.CTk):
 		self.social_value = tk.IntVar()
 
 		self.welcome = customtkinter.CTkButton(self, text = 'Welcome to BirdCode', width = 200, command = self.button_welcome)
-		self.welcome.grid(row = 0, column = 0, padx = 20, pady = 20, columnspan = 2)
+		self.welcome.grid(row = 0, column = 0, padx = 20, pady = (20, 20), columnspan = 2)
+		self.birders_types_audio_button = customtkinter.CTkButton(self, text = 'Listen', width = 200, command = self.birders_types_audio_playing)
+		self.birders_types_audio_button.grid(row = 7, column = 0, padx = 20, pady = (20, 20), columnspan = 2) 
+		
 		self.casual_checkbox = customtkinter.CTkCheckBox(self, text = 'Casual Birdwatcher', variable = self.casual_value)
 		self.casual_checkbox.grid(row = 1, column = 0, padx = 20, pady = (30, 20), sticky = 'w')
 		self.backyard_checkbox = customtkinter.CTkCheckBox(self, text = 'Backyard Birder', variable = self.backyard_value)
@@ -52,6 +55,7 @@ class App(customtkinter.CTk):
 		self.social_checkbox.grid(row = 6, column = 1, padx = 20, pady = (30, 20), sticky = 'w')
 
 
+
 	def button_welcome(self):
 
 		print('Welcome to BirdCode')
@@ -60,6 +64,28 @@ class App(customtkinter.CTk):
 		playsound('Audios/welcome_audio_zh.mp3')
 		time.sleep(2)
 		playsound('Audios/welcome_audio_es.mp3')
+
+	def birders_types_audio_playing(self):
+
+		if self.casual_value.get() == 1:
+
+			playsound('Audios/CasualBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.backyard_value.get() == 1:
+
+			playsound('Audios/BackyardBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.twitcher_value.get() == 1:
+
+			playsound('Audios/TwitcherBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.lister_value.get() == 1:
+
+			playsound('Audios/ListerBirder_audio.mp3')
+			time.sleep(6)
 
 
 
