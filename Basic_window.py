@@ -15,11 +15,11 @@ class App(customtkinter.CTk):
 	def button_welcome(self):
 
 		print('Welcome to BirdCode')
-		playsound('welcome_audio.mp3')
+		playsound('Audios/welcome_audio.mp3')
 		time.sleep(2)
-		playsound('welcome_audio_zh.mp3')
+		playsound('Audios/welcome_audio_zh.mp3')
 		time.sleep(2)
-		playsound('welcome_audio_es.mp3')
+		playsound('Audios/welcome_audio_es.mp3')
 
 
 
