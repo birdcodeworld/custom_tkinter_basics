@@ -10,7 +10,7 @@ class App(customtkinter.CTk):
 		self.geometry('900x600')
 
 		self.welcome = customtkinter.CTkButton(self, text = 'BirdCode', command = self.button_welcome)
-		self.welcome.pack(padx = 20, pady = 20)
+		self.welcome.grid(row = 0, column = 0, padx = 20, pady = 20)
 
 	def button_welcome(self):
 
