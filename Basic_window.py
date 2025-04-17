@@ -87,6 +87,49 @@ class App(customtkinter.CTk):
 			playsound('Audios/ListerBirder_audio.mp3')
 			time.sleep(6)
 
+		if self.photo_value.get() == 1:
+
+			playsound('Audios/PhotographicBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.sci_value.get() == 1:
+
+			playsound('Audios/ScientificBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.travel_value.get() == 1:
+
+			playsound('Audios/Travel_EcoBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.sound_value.get() == 1:
+
+			playsound('Audios/SoundBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.armchair_value.get() == 1:
+
+			playsound('Audios/ArmchairBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.artistic_value.get() == 1:
+
+			playsound('Audios/ArtisticBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.conservation_value.get() == 1:
+
+			playsound('Audios/ConservationBirder_audio.mp3')
+			time.sleep(6)
+
+		if self.social_value.get() == 1:
+
+			playsound('Audios/SocialBirder_audio.mp3')
+			time.sleep(6)
+
+
+
+
 
 
 app = App()
