@@ -10,6 +10,7 @@ class App(customtkinter.CTk):
 		super().__init__()
 		self.geometry('500x600')
 		self.grid_columnconfigure((0, 7), weight = 1)
+		customtkinter.set_appearance_mode('dark')
 
 		self.casual_value = tk.IntVar()
 		self.backyard_value = tk.IntVar()
