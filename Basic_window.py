@@ -12,6 +12,7 @@ class myTabView(customtkinter.CTkTabview):
 		super().__init__(master, **kwargs)
 
 		# Create tabs
+		self.add('Login')
 		self.add('Birdwatcher Types')
 		self.add('Map of Birdwatching Locations')
 
@@ -22,14 +23,28 @@ class myTabView(customtkinter.CTkTabview):
 			width = 200, command = self.checkbox_frame.get_audios)
 		self.birders_types_audio_button.grid(row = 7, column = 0, padx = 20, pady = (20, 20))
 
+		self.welcome = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Welcome to BirdCode', width = 200, command = self.button_welcome)
+		self.welcome.grid(row = 0, column = 2, padx = 20, pady = (10, 0), columnspan = 2)
+
 		self.EagleImage = customtkinter.CTkImage(dark_image = Image.open('Images/Accipitriforme4.png'), size = (750, 500))
 		self.EagleImage_Label = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), image = self.EagleImage, text = '')
-		self.EagleImage_Label.grid(row = 0, column = 2, padx = 20, pady = 20, rowspan = 8)
+		self.EagleImage_Label.grid(row = 1, column = 2, padx = 20, pady = 20, rowspan = 8)
 
-		# self.map_widget = TkinterMapView(master = self.tab('Tab 2'), width = 1100, height = 600)
-		# self.map_widget.grid(row = 0, column = 0)
-		# self.map_widget.set_position(26.376416, 117.882883)
-		# self.map_widget.set_zoom(5)
+		self.map_widget = TkinterMapView(master = self.tab('Map of Birdwatching Locations'), width = 950, height = 570)
+		self.map_widget.grid(row = 0, column = 0, padx = 10, pady = 10)
+		self.map_widget.set_position(36.220879, 104.787180)
+		self.map_widget.set_zoom(4)
+
+
+	def button_welcome(self):
+
+		print('Welcome to BirdCode')
+		playsound('Audios/welcome_audio.mp3')
+		time.sleep(2)
+		playsound('Audios/welcome_audio_zh.mp3')
+		time.sleep(2)
+		playsound('Audios/welcome_audio_es.mp3')
+
 
 
 
@@ -67,65 +82,79 @@ class myCheckBoxFrame(customtkinter.CTkFrame):
 
 	def get_audios(self):
 
-		if self.casual_checkbox.get() == 1:
+		self.re = [self.casual_checkbox, self.backyard_checkbox]
+		self.au = ['Audios/CasualBirder_audio.mp3', 'Audios/BackyardBirder_audio.mp3']
 
-			playsound('Audios/CasualBirder_audio.mp3')
-			time.sleep(6)
+		count = 0
 
-		if self.backyard_checkbox.get() == 1:
+		while count < len(self.re):
 
-			playsound('Audios/BackyardBirder_audio.mp3')
-			time.sleep(6)
+			if self.re[count].get() == 1:
 
-		if self.twitcher_chechbox.get() == 1:
+				playsound(self.au[count])
+				time.sleep(5)
 
-			playsound('Audios/TwitcherBirder_audio.mp3')
-			time.sleep(6)
+			count = count + 1
 
-		if self.lister_checkbox.get() == 1:
+		# if self.casual_checkbox.get() == 1:
 
-			playsound('Audios/ListerBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/CasualBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.photographic_checkbox.get() == 1:
+		# if self.backyard_checkbox.get() == 1:
 
-			playsound('Audios/PhotographicBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/BackyardBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.scientific_checkbox.get() == 1:
+		# if self.twitcher_chechbox.get() == 1:
 
-			playsound('Audios/ScientificBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/TwitcherBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.travel_checkbox.get() == 1:
+		# if self.lister_checkbox.get() == 1:
 
-			playsound('Audios/Travel_EcoBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/ListerBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.sound_checkbox.get() == 1:
+		# if self.photographic_checkbox.get() == 1:
 
-			playsound('Audios/SoundBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/PhotographicBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.armchair_checkbox.get() == 1:
+		# if self.scientific_checkbox.get() == 1:
 
-			playsound('Audios/ArmchairBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/ScientificBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.artistic_checkbox.get() == 1:
+		# if self.travel_checkbox.get() == 1:
 
-			playsound('Audios/ArtisticBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/Travel_EcoBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.conservation_checkbox.get() == 1:
+		# if self.sound_checkbox.get() == 1:
 
-			playsound('Audios/ConservationBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/SoundBirder_audio.mp3')
+		# 	time.sleep(6)
 
-		if self.social_checkbox.get() == 1:
+		# if self.armchair_checkbox.get() == 1:
 
-			playsound('Audios/SocialBirder_audio.mp3')
-			time.sleep(6)
+		# 	playsound('Audios/ArmchairBirder_audio.mp3')
+		# 	time.sleep(6)
+
+		# if self.artistic_checkbox.get() == 1:
+
+		# 	playsound('Audios/ArtisticBirder_audio.mp3')
+		# 	time.sleep(6)
+
+		# if self.conservation_checkbox.get() == 1:
+
+		# 	playsound('Audios/ConservationBirder_audio.mp3')
+		# 	time.sleep(6)
+
+		# if self.social_checkbox.get() == 1:
+
+		# 	playsound('Audios/SocialBirder_audio.mp3')
+		# 	time.sleep(6)
 
 
 class App(customtkinter.CTk):
@@ -138,24 +167,10 @@ class App(customtkinter.CTk):
 		customtkinter.set_appearance_mode('dark')
 		customtkinter.set_default_color_theme('green')
 		
-		self.welcome = customtkinter.CTkButton(self, text = 'Welcome to BirdCode', width = 200, command = self.button_welcome)
-		self.welcome.grid(row = 0, column = 0, padx = 20, pady = (20, 20), columnspan = 2)
-		
 		self.tab_view = myTabView(master = self, width = 1200, height = 630)
-		self.tab_view.grid(row = 0, column = 0, padx = 0, pady = 0)
+		self.tab_view.grid(row = 0, column = 0, padx = 10, pady = 0)
 
 		
-	def button_welcome(self):
-
-		print('Welcome to BirdCode')
-		playsound('Audios/welcome_audio.mp3')
-		time.sleep(2)
-		playsound('Audios/welcome_audio_zh.mp3')
-		time.sleep(2)
-		playsound('Audios/welcome_audio_es.mp3')
-
 	
-
-
 app = App()
 app.mainloop()
