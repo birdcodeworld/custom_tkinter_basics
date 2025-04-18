@@ -14,7 +14,8 @@ class myTabView(customtkinter.CTkTabview):
 		# Create tabs
 		self.add('Login')
 		self.add('Birdwatcher Types')
-		self.add('Map of Birdwatching Locations')
+		self.add('Map of Birdwatching China Locations')
+		self.add('Map of provinces Locations')
 
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
 		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (20, 20), sticky = 'nsw')
@@ -30,10 +31,24 @@ class myTabView(customtkinter.CTkTabview):
 		self.EagleImage_Label = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), image = self.EagleImage, text = '')
 		self.EagleImage_Label.grid(row = 1, column = 2, padx = 20, pady = 20, rowspan = 8)
 
-		self.map_widget = TkinterMapView(master = self.tab('Map of Birdwatching Locations'), width = 950, height = 570)
-		self.map_widget.grid(row = 0, column = 0, padx = 10, pady = 10)
-		self.map_widget.set_position(36.220879, 104.787180)
-		self.map_widget.set_zoom(4)
+		self.mark = tk.PhotoImage(file = 'Images/logo (3).png')
+
+		self.map_widget_china = TkinterMapView(master = self.tab('Map of Birdwatching China Locations'), width = 950, height = 570)
+		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10)
+		self.map_widget_china.set_position(36.220879, 104.787180)
+		self.map_widget_china.set_zoom(4)
+		
+		self.marker1 = self.map_widget_china.set_marker(36.22, 104.78, icon = self.mark, command = self.define_province_zoom)
+
+		self.map_widget_province = TkinterMapView(master = self.tab('Map of provinces Locations'), width = 950, height = 570)
+		self.map_widget_province.grid(row = 0, column = 0, padx = 10, pady = 10)
+		self.map_widget_province.set_position(36.220879, 104.787180)
+		self.map_widget_province.set_zoom(4)
+
+
+	def define_province_zoom(self, marker1):
+
+		self.map_widget_province.set_zoom(12)
 
 
 	def button_welcome(self):
