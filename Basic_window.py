@@ -1,9 +1,10 @@
+import os
 import customtkinter
 import tkinter as tk
 from tkintermapview import TkinterMapView
 from playsound import playsound
 import time
-from PIL import Image
+from PIL import Image, ImageTk
 
 
 class myTabView(customtkinter.CTkTabview):
@@ -14,8 +15,10 @@ class myTabView(customtkinter.CTkTabview):
 		# Create tabs
 		self.add('Login')
 		self.add('Birdwatcher Types')
-		self.add('Map of Birdwatching China Locations')
+		self.add('Birding China')
 		self.add('Map of provinces Locations')
+
+		self.province_name = tk.StringVar()
 
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
 		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (20, 20), sticky = 'nsw')
@@ -31,24 +34,51 @@ class myTabView(customtkinter.CTkTabview):
 		self.EagleImage_Label = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), image = self.EagleImage, text = '')
 		self.EagleImage_Label.grid(row = 1, column = 2, padx = 20, pady = 20, rowspan = 8)
 
-		self.mark = tk.PhotoImage(file = 'Images/logo (3).png')
+		#self.mark = customtkinter.CTkImage(dark_image = Image.open('Images/logo (3).png'))
 
-		self.map_widget_china = TkinterMapView(master = self.tab('Map of Birdwatching China Locations'), width = 950, height = 570)
-		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10)
+		self.map_widget_china = TkinterMapView(master = self.tab('Birding China'), width = 800, height = 570)
+		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10, rowspan = 8)
 		self.map_widget_china.set_position(36.220879, 104.787180)
 		self.map_widget_china.set_zoom(4)
 		
-		self.marker1 = self.map_widget_china.set_marker(36.22, 104.78, icon = self.mark, command = self.define_province_zoom)
+		self.map_title = customtkinter.CTkLabel(master = self.tab('Birding China'), text = 'PROVINCE NAME GUESSING GAME', font = ('Times New Roman', 20))
+		self.map_title.grid(row = 0, column = 1, padx = 30, pady = 10, columnspan = 2)
+
+		self.guess_province = customtkinter.CTkEntry(master = self.tab('Birding China'), textvariable = self.province_name, font = ('Kaiti', 30))
+		self.guess_province.grid(row = 1, column = 1, padx = 30, pady = 10)
+		self.guess_province.configure(width = 250)
+
+		self.send_name_button = customtkinter.CTkButton(master = self.tab('Birding China'), text = 'Send', width = 20, font = ('Times New Roman', 20))
+		self.send_name_button.grid(row = 1, column = 2, pady = 10)
+
+		self.current_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+		self.mark = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_black.png")).resize((50, 65)))
+
+		
+		self.marker1 = self.map_widget_china.set_marker(30.499426, 102.853586, text = 'Sichuan', icon = self.mark, 
+			text_color = 'black', command = self.define_province_zoom)
+
 
 		self.map_widget_province = TkinterMapView(master = self.tab('Map of provinces Locations'), width = 950, height = 570)
 		self.map_widget_province.grid(row = 0, column = 0, padx = 10, pady = 10)
-		self.map_widget_province.set_position(36.220879, 104.787180)
+		self.map_widget_province.set_position(30.499426, 102.853586)
 		self.map_widget_province.set_zoom(4)
+		self.map_widget_province.set_tile_server('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+		self.name2 = customtkinter.CTkLabel(master = self.tab('Map of provinces Locations'), text = '')
+		self.name2.grid(row = 0, column = 1)
 
 
 	def define_province_zoom(self, marker1):
 
-		self.map_widget_province.set_zoom(12)
+		self.map_widget_province.set_zoom(6)
+		self.marker2 = self.map_widget_province.set_marker(30.499426, 102.853586, icon = self.mark,
+		text = 'Sichuan', text_color = 'white', font = ('Times New Roman', 20), command = self.name)
+
+	def name(self, marker2):
+
+		self.name2.configure(text = 'Done')
+
+
 
 
 	def button_welcome(self):
@@ -59,9 +89,6 @@ class myTabView(customtkinter.CTkTabview):
 		playsound('Audios/welcome_audio_zh.mp3')
 		time.sleep(2)
 		playsound('Audios/welcome_audio_es.mp3')
-
-
-
 
 
 class myCheckBoxFrame(customtkinter.CTkFrame):
