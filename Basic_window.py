@@ -24,10 +24,10 @@ class myTabView(customtkinter.CTkTabview):
 		self.Eagle_login = customtkinter.CTkButton(master = self.tab('Login'), image = self.Eagle_logo, text = '')
 		self.Eagle_login.grid(row = 0, column = 0, padx = 20, pady = 20)
 
+		self.sichuan_photo = customtkinter.CTkImage(dark_image = Image.open('Images/sichuanphoto.png'), size = (300, 200))
+		
 		self.Login_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Login')
 		self.Login_label.grid(row = 0, column = 1, padx = 10)
-
-		self.province_name = tk.StringVar()
 
 		self.birder_types_title = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), text = 'BIRDWATCHER TYPES',
 			font = ('Times New Roman', 20))
@@ -51,19 +51,36 @@ class myTabView(customtkinter.CTkTabview):
 		#self.mark = customtkinter.CTkImage(dark_image = Image.open('Images/logo (3).png'))
 
 		self.map_widget_china = TkinterMapView(master = self.tab('Birding China'), width = 800, height = 570)
-		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10, rowspan = 2)
+		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10, rowspan = 6)
 		self.map_widget_china.set_position(36.220879, 104.787180)
 		self.map_widget_china.set_zoom(4)
 		
 		self.map_title = customtkinter.CTkLabel(master = self.tab('Birding China'), text = 'PROVINCE NAME GUESSING GAME', font = ('Times New Roman', 20))
 		self.map_title.grid(row = 0, column = 1, padx = 30, columnspan = 2)
 
-		self.guess_province = customtkinter.CTkEntry(master = self.tab('Birding China'), textvariable = self.province_name, font = ('Kaiti', 30))
-		self.guess_province.grid(row = 1, column = 1, padx = 30)
-		self.guess_province.configure(width = 250)
+		self.answer_entry_zhname = myAnswerEntryFrame(master = self.tab('Birding China'))
+		self.answer_entry_zhname.grid(row = 1, column = 1, columnspan = 2)
 
-		self.send_name_button = customtkinter.CTkButton(master = self.tab('Birding China'), text = 'Send', width = 20, font = ('Times New Roman', 20))
-		self.send_name_button.grid(row = 1, column = 2, pady = 10)
+		self.hits = customtkinter.CTkLabel(master = self.tab('Birding China'), text = 'Hits', font = ('Times New Roman', 25))
+		self.hits.grid(row = 2, column = 1, padx = 20)
+
+		self.wrongs = customtkinter.CTkLabel(master = self.tab('Birding China'), text = 'Wrongs', font = ('Times New Roman', 25))
+		self.wrongs.grid(row = 2, column = 2, padx = 20)
+
+		self.hits_score = customtkinter.CTkLabel(master = self.tab('Birding China'), text = '350', font = ('Times New Roman', 50))
+		self.hits_score.grid(row = 3, column = 1, padx = 10)
+
+		self.wrongs_score = customtkinter.CTkLabel(master = self.tab('Birding China'), text = '780', font = ('Times New Roman', 50))
+		self.wrongs_score.grid(row = 3, column = 2, padx = 10)
+
+		self.sichuan_photo_button = customtkinter.CTkButton(master = self.tab('Birding China'), image = self.sichuan_photo, 
+			text = '', command = self.photo_questions_01)
+		self.sichuan_photo_button.grid(row = 4, column = 1, padx = 20, pady = 20, columnspan = 2)
+
+		self.change_photo_button_frw = customtkinter.CTkButton(master = self.tab('Birding China'), text = 'forward')
+		self.change_photo_button_frw.grid(row = 5, column = 1, padx = 20, sticky = 'w')
+
+
 
 		self.current_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 		self.mark_black = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_black.png")).resize((45, 58)))
@@ -115,6 +132,33 @@ class myTabView(customtkinter.CTkTabview):
 		playsound('Audios/welcome_audio_zh.mp3')
 		time.sleep(2)
 		playsound('Audios/welcome_audio_es.mp3')
+
+	def photo_questions_01(self):
+
+		playsound('Audios/welcome_audio.mp3')
+
+
+class myAnswerEntryFrame(customtkinter.CTkFrame):
+
+	def __init__(self, master):
+		super().__init__(master)
+
+		self.province_name = tk.StringVar()
+
+		self.guess_province = customtkinter.CTkEntry(self, textvariable = self.province_name, font = ('Kaiti', 30))
+		self.guess_province.grid(row = 0, column = 0, padx = 20)
+		self.guess_province.configure(width = 250)
+
+		self.send_name_button = customtkinter.CTkButton(self, text = 'Send', width = 20, font = ('Times New Roman', 20))
+		self.send_name_button.grid(row = 0, column = 1, pady = 10, sticky = 'w')
+
+
+
+
+		
+
+
+
 
 
 class myCheckBoxFrame(customtkinter.CTkFrame):
@@ -172,7 +216,7 @@ class App(customtkinter.CTk):
 		super().__init__()
 		self.geometry('1250x650')
 		self.title('BirdCode World')
-		self.grid_columnconfigure((0, 2), weight = 1)
+		#self.grid_columnconfigure((0, 2), weight = 1)
 		customtkinter.set_appearance_mode('dark')
 		customtkinter.set_default_color_theme('green')
 		
