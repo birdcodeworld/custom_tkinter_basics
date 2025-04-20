@@ -2,16 +2,30 @@ import os
 import customtkinter
 import tkinter as tk
 from tkintermapview import TkinterMapView
+from Markers import *
 from playsound import playsound
 import time
 from PIL import Image, ImageTk
 
 
+class myMarkerSet(TkinterMapView):
+
+	def __init__(self, master, province, values):
+
+		super().__init__(master)
+		
+		self.values = values[province]		
+
+		for i, value in enumerate(self.values):
+			marker = self.set_marker(master, value[1], value[2])
+
+
+
 class myTabView(customtkinter.CTkTabview):
 
 	def __init__(self, master, **kwargs):
-		super().__init__(master, **kwargs)
 
+		super().__init__(master, **kwargs)
 		# Create tabs
 		self.add('Login')
 		self.add('Birdwatcher Types')
@@ -19,6 +33,7 @@ class myTabView(customtkinter.CTkTabview):
 		self.add('Map of provinces Locations')
 
 		self.province_name = tk.StringVar()
+
 
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
 		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (20, 20), sticky = 'nsw')
@@ -52,10 +67,14 @@ class myTabView(customtkinter.CTkTabview):
 		self.send_name_button.grid(row = 1, column = 2, pady = 10)
 
 		self.current_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-		self.mark = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_black.png")).resize((50, 65)))
+		self.mark_black = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_black.png")).resize((45, 58)))
+		self.mark_white = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_white.png")).resize((45, 58)))
+		self.mark_red = ImageTk.PhotoImage(Image.open(os.path.join(self.current_path, "Images", "Marker_red.png")).resize((45, 58)))
 
 		
-		self.marker1 = self.map_widget_china.set_marker(30.499426, 102.853586, text = 'Sichuan', icon = self.mark, 
+		self.marker1 = self.map_widget_china.set_marker(31.519240, 103.117257, text = '1', icon = self.mark_black, 
+			text_color = 'black', command = self.define_province_zoom)
+		self.marker2 = self.map_widget_china.set_marker(24.580697, 100.832101, text = '2', icon = self.mark_black,
 			text_color = 'black', command = self.define_province_zoom)
 
 
@@ -68,17 +87,29 @@ class myTabView(customtkinter.CTkTabview):
 		self.name2.grid(row = 0, column = 1)
 
 
-	def define_province_zoom(self, marker1):
+	def define_province_zoom(self, marker):
 
-		self.map_widget_province.set_zoom(6)
-		self.marker2 = self.map_widget_province.set_marker(30.499426, 102.853586, icon = self.mark,
-		text = 'Sichuan', text_color = 'white', font = ('Times New Roman', 20), command = self.name)
+		#print(marker1.text)
+		playsound(audio_provinces[int(marker.text) - 1])
+		self.map_widget_province.set_position(marker.position[0], marker.position[1])
+		self.map_widget_province.set_zoom(7)
+		marker.change_icon(self.mark_red)
+
+		for i, value in enumerate(bird_china_markers[marker.text]):
+
+			self.lat = value[1]
+			self.long = value[2]
+			self.name_marker = value[0]
+			self.map_widget_province.set_marker(self.lat, self.long, text = self.name_marker, icon = self.mark_white, 
+				text_color = 'white')
+
+
+		#self.market_set = myMarkerSet(self.map_widget_province, marker1.text, bird_china_markers)
+
 
 	def name(self, marker2):
 
 		self.name2.configure(text = 'Done')
-
-
 
 
 	def button_welcome(self):
