@@ -97,8 +97,8 @@ class myTabView(customtkinter.CTkTabview):
 
 		for i, value in enumerate(bird_china_markers[marker.text]):
 
-			self.lat = value[1]
-			self.long = value[2]
+			self.lat = value[2]
+			self.long = value[3]
 			self.name_marker = value[0]
 			self.map_widget_province.set_marker(self.lat, self.long, text = self.name_marker, icon = self.mark_white, 
 				text_color = 'white')
