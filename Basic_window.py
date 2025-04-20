@@ -78,7 +78,7 @@ class myTabView(customtkinter.CTkTabview):
 			text_color = 'black', command = self.define_province_zoom)
 
 
-		self.map_widget_province = TkinterMapView(master = self.tab('Map of provinces Locations'), width = 950, height = 570)
+		self.map_widget_province = TkinterMapView(master = self.tab('Map of provinces Locations'), width = 800, height = 570)
 		self.map_widget_province.grid(row = 0, column = 0, padx = 10, pady = 10)
 		self.map_widget_province.set_position(30.499426, 102.853586)
 		self.map_widget_province.set_zoom(4)
