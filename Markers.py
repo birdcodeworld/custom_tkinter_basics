@@ -5,6 +5,8 @@ bird_china_markers = {'1':[['Jiuzhaigou NNR','九寨沟自然保护区', 33.2666
 ['Baxi Forest', '巴西林场', 33.58445, 103.17879, 204], ['Huanhuaxi Park', '浣花溪公园', 30.656582, 104.02997, 190],
 ['Huanglong Scenic Area', '黄龙风景区', 32.751102, 103.82387, 140]], '2': [['fd', 56.1, 11.2], ['jk', 90.1, 20.1]]}
 
+bird_china_provinces_richness = {'1': 753}
+
 audio_provinces = ['Audios/Sichuan_name.mp3', 'Audios/Yunnan_name.mp3']
 
 for i, value in enumerate(bird_china_markers['1']):

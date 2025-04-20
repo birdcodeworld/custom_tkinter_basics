@@ -3,22 +3,10 @@ import customtkinter
 import tkinter as tk
 from tkintermapview import TkinterMapView
 from Markers import *
+from Audios import *
 from playsound import playsound
 import time
 from PIL import Image, ImageTk
-
-
-class myMarkerSet(TkinterMapView):
-
-	def __init__(self, master, province, values):
-
-		super().__init__(master)
-		
-		self.values = values[province]		
-
-		for i, value in enumerate(self.values):
-			marker = self.set_marker(master, value[1], value[2])
-
 
 
 class myTabView(customtkinter.CTkTabview):
@@ -33,7 +21,6 @@ class myTabView(customtkinter.CTkTabview):
 		self.add('Map of provinces Locations')
 
 		self.province_name = tk.StringVar()
-
 
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
 		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (20, 20), sticky = 'nsw')
@@ -77,7 +64,6 @@ class myTabView(customtkinter.CTkTabview):
 		self.marker2 = self.map_widget_china.set_marker(24.580697, 100.832101, text = '2', icon = self.mark_black,
 			text_color = 'black', command = self.define_province_zoom)
 
-
 		self.map_widget_province = TkinterMapView(master = self.tab('Map of provinces Locations'), width = 800, height = 570)
 		self.map_widget_province.grid(row = 0, column = 0, padx = 10, pady = 10)
 		self.map_widget_province.set_position(30.499426, 102.853586)
@@ -102,9 +88,6 @@ class myTabView(customtkinter.CTkTabview):
 			self.name_marker = value[0]
 			self.map_widget_province.set_marker(self.lat, self.long, text = self.name_marker, icon = self.mark_white, 
 				text_color = 'white')
-
-
-		#self.market_set = myMarkerSet(self.map_widget_province, marker1.text, bird_china_markers)
 
 
 	def name(self, marker2):
@@ -155,81 +138,22 @@ class myCheckBoxFrame(customtkinter.CTkFrame):
 
 	def get_audios(self):
 
-		self.re = [self.casual_checkbox, self.backyard_checkbox]
-		self.au = ['Audios/CasualBirder_audio.mp3', 'Audios/BackyardBirder_audio.mp3']
-
+		self.birder_types = [self.casual_checkbox, self.backyard_checkbox, self.twitcher_chechbox, self.lister_checkbox,
+		self.photographic_checkbox, self.scientific_checkbox, self.travel_checkbox, self.sound_checkbox, self.armchair_checkbox,
+		self.artistic_checkbox, self.conservation_checkbox, self.social_checkbox]
+		
 		count = 0
 
-		while count < len(self.re):
+		while count < len(self.birder_types):
 
-			if self.re[count].get() == 1:
+			if self.birder_types[count].get() == 1:
 
-				playsound(self.au[count])
+				playsound(birder_types_audios[count])
 				time.sleep(5)
 
 			count = count + 1
 
-		# if self.casual_checkbox.get() == 1:
-
-		# 	playsound('Audios/CasualBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.backyard_checkbox.get() == 1:
-
-		# 	playsound('Audios/BackyardBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.twitcher_chechbox.get() == 1:
-
-		# 	playsound('Audios/TwitcherBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.lister_checkbox.get() == 1:
-
-		# 	playsound('Audios/ListerBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.photographic_checkbox.get() == 1:
-
-		# 	playsound('Audios/PhotographicBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.scientific_checkbox.get() == 1:
-
-		# 	playsound('Audios/ScientificBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.travel_checkbox.get() == 1:
-
-		# 	playsound('Audios/Travel_EcoBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.sound_checkbox.get() == 1:
-
-		# 	playsound('Audios/SoundBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.armchair_checkbox.get() == 1:
-
-		# 	playsound('Audios/ArmchairBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.artistic_checkbox.get() == 1:
-
-		# 	playsound('Audios/ArtisticBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.conservation_checkbox.get() == 1:
-
-		# 	playsound('Audios/ConservationBirder_audio.mp3')
-		# 	time.sleep(6)
-
-		# if self.social_checkbox.get() == 1:
-
-		# 	playsound('Audios/SocialBirder_audio.mp3')
-		# 	time.sleep(6)
-
-
+		
 class App(customtkinter.CTk):
 
 	def __init__(self):
