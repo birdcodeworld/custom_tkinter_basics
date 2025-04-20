@@ -20,16 +20,28 @@ class myTabView(customtkinter.CTkTabview):
 		self.add('Birding China')
 		self.add('Map of provinces Locations')
 
+		self.Eagle_logo = customtkinter.CTkImage(dark_image = Image.open('Images/BirdCode_logo.png'), size = (600, 528))
+		self.Eagle_login = customtkinter.CTkButton(master = self.tab('Login'), image = self.Eagle_logo, text = '')
+		self.Eagle_login.grid(row = 0, column = 0, padx = 20, pady = 20)
+
+		self.Login_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Login')
+		self.Login_label.grid(row = 0, column = 1, padx = 10)
+
 		self.province_name = tk.StringVar()
 
+		self.birder_types_title = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), text = 'BIRDWATCHER TYPES',
+			font = ('Times New Roman', 20))
+		self.birder_types_title.grid(row = 0, column = 0, padx = 10, pady = 10)
+
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
-		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (20, 20), sticky = 'nsw')
+		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (0, 20), sticky = 'nsw')
 
 		self.birders_types_audio_button = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Listen', 
 			width = 200, command = self.checkbox_frame.get_audios)
 		self.birders_types_audio_button.grid(row = 7, column = 0, padx = 20, pady = (20, 20))
 
-		self.welcome = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Welcome to BirdCode', width = 200, command = self.button_welcome)
+		self.welcome = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Welcome to BirdCode China', 
+			width = 200, command = self.button_welcome)
 		self.welcome.grid(row = 0, column = 2, padx = 20, pady = (10, 0), columnspan = 2)
 
 		self.EagleImage = customtkinter.CTkImage(dark_image = Image.open('Images/Accipitriforme4.png'), size = (750, 500))
@@ -39,15 +51,15 @@ class myTabView(customtkinter.CTkTabview):
 		#self.mark = customtkinter.CTkImage(dark_image = Image.open('Images/logo (3).png'))
 
 		self.map_widget_china = TkinterMapView(master = self.tab('Birding China'), width = 800, height = 570)
-		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10, rowspan = 8)
+		self.map_widget_china.grid(row = 0, column = 0, padx = 10, pady = 10, rowspan = 2)
 		self.map_widget_china.set_position(36.220879, 104.787180)
 		self.map_widget_china.set_zoom(4)
 		
 		self.map_title = customtkinter.CTkLabel(master = self.tab('Birding China'), text = 'PROVINCE NAME GUESSING GAME', font = ('Times New Roman', 20))
-		self.map_title.grid(row = 0, column = 1, padx = 30, pady = 10, columnspan = 2)
+		self.map_title.grid(row = 0, column = 1, padx = 30, columnspan = 2)
 
 		self.guess_province = customtkinter.CTkEntry(master = self.tab('Birding China'), textvariable = self.province_name, font = ('Kaiti', 30))
-		self.guess_province.grid(row = 1, column = 1, padx = 30, pady = 10)
+		self.guess_province.grid(row = 1, column = 1, padx = 30)
 		self.guess_province.configure(width = 250)
 
 		self.send_name_button = customtkinter.CTkButton(master = self.tab('Birding China'), text = 'Send', width = 20, font = ('Times New Roman', 20))
