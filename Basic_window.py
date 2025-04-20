@@ -22,35 +22,45 @@ class myTabView(customtkinter.CTkTabview):
 
 		self.Eagle_logo = customtkinter.CTkImage(dark_image = Image.open('Images/BirdCode_logo.png'), size = (600, 528))
 		self.points_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Points_logo.png'), size = (100, 120))
+		self.coins_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Coins_logo.png'), size = (100, 120))
+		self.feathers_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Feathers_logo.png'), size = (100, 120))
 		self.Eagle_login = customtkinter.CTkButton(master = self.tab('Login'), image = self.Eagle_logo, text = '')
 		self.Eagle_login.grid(row = 0, column = 0, padx = 20, pady = 20, rowspan = 7)
 
 		self.sichuan_photo = customtkinter.CTkImage(dark_image = Image.open('Images/sichuanphoto.png'), size = (300, 200))
 		
 		self.Login_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'BIRDCODE LOGIN', font = ('Times New Roman', 30))
-		self.Login_label.grid(row = 0, column = 1, padx = 150, pady = 40, columnspan = 2)
+		self.Login_label.grid(row = 0, column = 1, padx = 150, pady = 40, columnspan = 3)
 
 		self.username_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Username', font = ('Times New Roman', 25))
-		self.username_label.grid(row = 1, column = 1, padx = 80, pady = 10, sticky = 'w')
+		self.username_label.grid(row = 1, column = 1, padx = 80, pady = 10, sticky = 'w', columnspan = 3)
 
-		self.username_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 300, font = ('Times New Roman', 20))
-		self.username_entry.grid(row = 2, column = 1, padx = 30, sticky = 'w')
+		self.username_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 370, font = ('Times New Roman', 20))
+		self.username_entry.grid(row = 2, column = 1, padx = 30, sticky = 'w', columnspan = 3)
 
 		self.password_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Password', font = ('Times New Roman', 25))
-		self.password_label.grid(row = 3, column = 1, padx = 80, pady = 10, sticky = 'w')
+		self.password_label.grid(row = 3, column = 1, padx = 80, pady = 10, sticky = 'w', columnspan = 3)
 
-		self.password_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 300, font = ('Times New Roman', 20))
-		self.password_entry.grid(row = 4, column = 1, padx = 30, sticky = 'w')
+		self.password_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 370, font = ('Times New Roman', 20))
+		self.password_entry.grid(row = 4, column = 1, padx = 30, sticky = 'w', columnspan = 3)
 
 		self.points_button = customtkinter.CTkButton(master = self.tab('Login'), image = self.points_logo, text = '')
-		self.points_button.grid(row = 5, column = 1, padx = 30, pady = (80, 30), sticky = 'w')
+		self.points_button.grid(row = 5, column = 1, padx = (30, 5), pady = (80, 20), sticky = 'w')
+		self.coins_button = customtkinter.CTkButton(master = self.tab('Login'), image = self.coins_logo, text = '')
+		self.coins_button.grid(row = 5, column = 2, padx = (0, 0), pady = (80, 20), sticky = 'w')
+		self.feathers_button = customtkinter.CTkButton(master = self.tab('Login'), image = self.feathers_logo, text = '')
+		self.feathers_button.grid(row = 5, column = 3, padx = (5, 20), pady = (80, 20), sticky = 'w')
 
 		self.points_label = customtkinter.CTkLabel(master = self.tab('Login'), text = '1230', font = ('Times New Roman', 25))
-		self.points_label.grid(row = 6, column = 1, padx = 70, sticky = 'nw')
-		#self.points_label.configure(bg_color = 'white')
+		self.points_label.grid(row = 6, column = 1, padx = (50, 30), sticky = 'nwse')
+		self.coins_label = customtkinter.CTkLabel(master = self.tab('Login'), text = '5444', font = ('Times New Roman', 25))
+		self.coins_label.grid(row = 6, column = 2, padx = (0, 20), sticky = 'nwse')
+		self.feathers_label = customtkinter.CTkLabel(master = self.tab('Login'), text = '3888', font = ('Times New Roman', 25))
+		self.feathers_label.grid(row = 6, column = 3, padx = (50, 0), sticky = 'nw')
+		
 
-		self.login_zh = customtkinter.CTkLabel(master = self.tab('Login'), text = '欢\n迎\n来\n到\n鸟\n码', font = ('Kaiti', 40))
-		self.login_zh.grid(row = 0, column = 2, rowspan = 5)
+		self.login_zh = customtkinter.CTkLabel(master = self.tab('Login'), text = '欢\n迎\n来\n到\n鸟\n码\n中\n国', font = ('Kaiti', 40))
+		self.login_zh.grid(row = 0, column = 3, rowspan = 5, padx = (70, 30), sticky = 'ne')
 
 
 		self.birder_types_title = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), text = 'BIRDWATCHER TYPES',
