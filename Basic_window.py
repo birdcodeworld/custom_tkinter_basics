@@ -72,14 +72,17 @@ class myTabView(customtkinter.CTkTabview):
 
 		self.birder_types_title = customtkinter.CTkLabel(master = self.tab('Birdwatcher Types'), text = 'BIRDWATCHER TYPES',
 			font = ('Times New Roman', 20))
-		self.birder_types_title.grid(row = 0, column = 0, padx = 10, pady = 10)
+		self.birder_types_title.grid(row = 0, column = 0, padx = 10, pady = 10, columnspan = 2)
 
 		self.checkbox_frame = myCheckBoxFrame(master = self.tab('Birdwatcher Types'))
-		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (0, 20), sticky = 'nsw')
+		self.checkbox_frame.grid(row = 1, column = 0, padx = 30, pady = (0, 20), sticky = 'nsw', columnspan = 2)
 
 		self.birders_types_audio_button = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Listen', 
-			width = 200, command = self.checkbox_frame.get_audios)
+			width = 100, command = self.checkbox_frame.get_audios)
 		self.birders_types_audio_button.grid(row = 7, column = 0, padx = 20, pady = (20, 20))
+
+		self.upload_birder_types = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Upload your hobbie')
+		self.upload_birder_types.grid(row = 7, column = 1, padx = 10)
 
 		self.welcome = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Welcome to BirdCode China', 
 			width = 200, command = self.button_welcome)
@@ -316,6 +319,7 @@ class myCheckBoxFrame(customtkinter.CTkFrame):
 			if self.birder_types[count].get() == 1:
 
 				playsound(birder_types_audios[count])
+				print(self.birder_types[count]._text)
 				time.sleep(5)
 
 			count = count + 1
