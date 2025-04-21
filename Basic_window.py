@@ -13,6 +13,11 @@ import time
 from PIL import Image, ImageTk
 
 
+username_db = ''
+login_check = False
+types_bor = ''
+
+
 class myTabView(customtkinter.CTkTabview):
 
 	def __init__(self, master, **kwargs):
@@ -25,7 +30,6 @@ class myTabView(customtkinter.CTkTabview):
 		self.add('Map of provinces Locations')
 
 		self.username = tk.StringVar()
-
 		self.Eagle_logo = customtkinter.CTkImage(dark_image = Image.open('Images/BirdCode_logo.png'), size = (600, 528))
 		self.points_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Points_logo.png'), size = (100, 120))
 		self.coins_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Coins_logo.png'), size = (100, 120))
@@ -81,7 +85,8 @@ class myTabView(customtkinter.CTkTabview):
 			width = 100, command = self.checkbox_frame.get_audios)
 		self.birders_types_audio_button.grid(row = 7, column = 0, padx = 20, pady = (20, 20))
 
-		self.upload_birder_types = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Upload your hobbie')
+		self.upload_birder_types = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Upload your hobbie',
+			command = self.Upload_birder_types)
 		self.upload_birder_types.grid(row = 7, column = 1, padx = 10)
 
 		self.welcome = customtkinter.CTkButton(master = self.tab('Birdwatcher Types'), text = 'Welcome to BirdCode China', 
@@ -148,8 +153,8 @@ class myTabView(customtkinter.CTkTabview):
 
 	def login_user(self):
 
-		self.username_db = ''
-		self.login_check = False
+		global username_db
+		global login_check
 
 		self.wdatos = bytes(self.password_entry.get(), 'utf-8')
 		self.h = hashlib.new(algoritmo, self.wdatos)
@@ -175,8 +180,8 @@ class myTabView(customtkinter.CTkTabview):
 			self.miCursor1.execute(self.sql1, self.sql1_data)
 			self.dlt2 = self.miCursor1.fetchall()
 			#hash256_passw_label.config(text = hash2)
-			#username_db = dlt2[0][1]
-			self.login_check = True
+			username_db = self.dlt2[0][1]
+			login_check = True
 			#print(username_db)
 			playsound('Audios/bambu_click.mp3')
 			#playsound('NuevoUsuarioCreado.mp3')
@@ -190,8 +195,8 @@ class myTabView(customtkinter.CTkTabview):
 		elif len(self.dlt1) > 0 and self.hash2 == self.dlt1[0][2]:
 
 			#hash256_passw_label.config(text = dlt1[0][2])
-			self.username_db = self.dlt1[0][1]
-			self.login_check = True
+			username_db = self.dlt1[0][1]
+			login_check = True
 			#print(username_db)
 			playsound('Audios/bambu_click.mp3')
 			#playsound('CorrectoLogin.mp3')
@@ -214,6 +219,38 @@ class myTabView(customtkinter.CTkTabview):
 
 		self.miConexion1.commit()
 		self.miConexion1.close()
+
+
+	def Upload_birder_types(self):
+
+		global username_db
+		global login_check
+		global types_bor
+
+		self.miConexion2 = psycopg2.connect(host = 'bctc8tdlqly4cpe3dj0b-postgresql.services.clever-cloud.com', port = 50013, 
+		user = 'uylah5thtah6mgce6pcu', dbname = 'bctc8tdlqly4cpe3dj0b', password = 'W4IDeZIuZSOKKxRqzXhjFsiu1WFcYT')
+		self.miCursor2 = self.miConexion2.cursor()
+		self.sql11 = 'select * from users where username = (%s)'
+		self.sql11_data = (username_db, )
+		self.sql111 = 'update users set (username, type) = (%s, %s) where (username = (%s))'
+		self.datasql111 = (username_db, types_bor, username_db)
+		self.miCursor2.execute(self.sql11, self.sql11_data)
+		self.dlt11 = self.miCursor2.fetchall()
+
+		if len(self.dlt11) > 0 and login_check:
+
+			self.miCursor2.execute(self.sql111, self.datasql111)
+			self.miCursor2.execute(self.sql11, self.sql11_data)
+			self.dlt11 = self.miCursor2.fetchall()
+
+			if self.dlt11[0][6] == types_bor:
+
+				playsound('Audios/bambu_click.mp3')
+				print(types_bor)
+				
+
+		self.miConexion2.commit()
+		self.miConexion2.close()
 
 
 	def define_province_zoom(self, marker):
@@ -268,13 +305,6 @@ class myAnswerEntryFrame(customtkinter.CTkFrame):
 
 
 
-
-		
-
-
-
-
-
 class myCheckBoxFrame(customtkinter.CTkFrame):
 
 	def __init__(self, master):
@@ -308,6 +338,10 @@ class myCheckBoxFrame(customtkinter.CTkFrame):
 
 	def get_audios(self):
 
+		global types_bor
+
+		types_bor = ''
+
 		self.birder_types = [self.casual_checkbox, self.backyard_checkbox, self.twitcher_chechbox, self.lister_checkbox,
 		self.photographic_checkbox, self.scientific_checkbox, self.travel_checkbox, self.sound_checkbox, self.armchair_checkbox,
 		self.artistic_checkbox, self.conservation_checkbox, self.social_checkbox]
@@ -319,12 +353,13 @@ class myCheckBoxFrame(customtkinter.CTkFrame):
 			if self.birder_types[count].get() == 1:
 
 				playsound(birder_types_audios[count])
-				print(self.birder_types[count]._text)
+				types_bor = types_bor + ' - ' + self.birder_types[count]._text
 				time.sleep(5)
 
 			count = count + 1
 
 		
+	
 class App(customtkinter.CTk):
 
 	def __init__(self):
