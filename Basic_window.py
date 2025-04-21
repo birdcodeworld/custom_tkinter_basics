@@ -2,8 +2,12 @@ import os
 import customtkinter
 import tkinter as tk
 from tkintermapview import TkinterMapView
+import psycopg2
+import hashlib
 from Markers import *
 from Audios import *
+#from db_connections import *
+from hash import *
 from playsound import playsound
 import time
 from PIL import Image, ImageTk
@@ -20,11 +24,13 @@ class myTabView(customtkinter.CTkTabview):
 		self.add('Birding China')
 		self.add('Map of provinces Locations')
 
+		self.username = tk.StringVar()
+
 		self.Eagle_logo = customtkinter.CTkImage(dark_image = Image.open('Images/BirdCode_logo.png'), size = (600, 528))
 		self.points_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Points_logo.png'), size = (100, 120))
 		self.coins_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Coins_logo.png'), size = (100, 120))
 		self.feathers_logo = customtkinter.CTkImage(dark_image = Image.open('Images/Feathers_logo.png'), size = (100, 120))
-		self.Eagle_login = customtkinter.CTkButton(master = self.tab('Login'), image = self.Eagle_logo, text = '')
+		self.Eagle_login = customtkinter.CTkButton(master = self.tab('Login'), image = self.Eagle_logo, text = '', command = self.login_user)
 		self.Eagle_login.grid(row = 0, column = 0, padx = 20, pady = 20, rowspan = 7)
 
 		self.sichuan_photo = customtkinter.CTkImage(dark_image = Image.open('Images/sichuanphoto.png'), size = (300, 200))
@@ -35,7 +41,8 @@ class myTabView(customtkinter.CTkTabview):
 		self.username_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Username', font = ('Times New Roman', 25))
 		self.username_label.grid(row = 1, column = 1, padx = 80, pady = 10, sticky = 'w', columnspan = 3)
 
-		self.username_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 370, font = ('Times New Roman', 20))
+		self.username_entry = customtkinter.CTkEntry(master = self.tab('Login'), width = 370, font = ('Times New Roman', 20),
+			textvariable = self.username)
 		self.username_entry.grid(row = 2, column = 1, padx = 30, sticky = 'w', columnspan = 3)
 
 		self.password_label = customtkinter.CTkLabel(master = self.tab('Login'), text = 'Password', font = ('Times New Roman', 25))
@@ -134,6 +141,76 @@ class myTabView(customtkinter.CTkTabview):
 		self.map_widget_province.set_tile_server('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
 		self.name2 = customtkinter.CTkLabel(master = self.tab('Map of provinces Locations'), text = '')
 		self.name2.grid(row = 0, column = 1)
+
+
+	def login_user(self):
+
+		self.username_db = ''
+		self.login_check = False
+
+		self.wdatos = bytes(self.password_entry.get(), 'utf-8')
+		self.h = hashlib.new(algoritmo, self.wdatos)
+		self.hash2 = HASH.generaHash(self.h)
+
+		self.miConexion1 = psycopg2.connect(host = 'bctc8tdlqly4cpe3dj0b-postgresql.services.clever-cloud.com', port = 50013, 
+		user = 'uylah5thtah6mgce6pcu', dbname = 'bctc8tdlqly4cpe3dj0b', password = 'W4IDeZIuZSOKKxRqzXhjFsiu1WFcYT')
+		
+		self.miCursor1 = self.miConexion1.cursor()
+
+		self.sql1 = 'select * from users where username = (%s)'
+		self.sql1_data = (self.username_entry.get(), )
+
+		self.sql2 = 'insert into users(username, password, points, coins, feathers) values(%s,%s,%s,%s,%s)'
+		self.sql2_data = (self.username_entry.get(), self.hash2, 0, 0, 0)
+
+		self.miCursor1.execute(self.sql1, self.sql1_data)
+		self.dlt1 = self.miCursor1.fetchall()
+
+		if len(self.dlt1) == 0 and self.username_entry.get() != '' and self.password_entry.get() != '':
+
+			self.miCursor1.execute(self.sql2, self.sql2_data)
+			self.miCursor1.execute(self.sql1, self.sql1_data)
+			self.dlt2 = self.miCursor1.fetchall()
+			#hash256_passw_label.config(text = hash2)
+			#username_db = dlt2[0][1]
+			self.login_check = True
+			#print(username_db)
+			playsound('Audios/bambu_click.mp3')
+			#playsound('NuevoUsuarioCreado.mp3')
+			#playsound('NewUserCreated.mp3')
+			time.sleep(2)
+			#labelPlayerBCM.config(text = 'Welcome, {}'.format(username_dbc.get()))
+			#labelPlayerBCM2.config(text = 'Welcome, {}'.format(username_dbc.get()))
+			#labelPlayerBCM3.config(text = 'Welcome, {}'.format(username_dbc.get()))
+			#labelPlayerBCM4.config(text = 'Welcome, {}'.format(username_dbc.get()))
+
+		elif len(self.dlt1) > 0 and self.hash2 == self.dlt1[0][2]:
+
+			#hash256_passw_label.config(text = dlt1[0][2])
+			self.username_db = self.dlt1[0][1]
+			self.login_check = True
+			#print(username_db)
+			playsound('Audios/bambu_click.mp3')
+			#playsound('CorrectoLogin.mp3')
+			#playsound('CorrectLogin.mp3')
+			time.sleep(2)
+			#playsound('UseMachine.mp3')
+			#labelPlayerBCM.config(text = 'Welcome to BirdCipher, {}'.format(username_dbc.get()))
+			#labelPlayerBCM2.config(text = 'Welcome to BirdCipher, {}'.format(username_dbc.get()))
+			#labelPlayerBCM3.config(text = 'Welcome to BirdCipher, {}'.format(username_dbc.get()))
+			#labelPlayerBCM4.config(text = 'Welcome to BirdCipher, {}'.format(username_dbc.get()))
+			#labelPlayerLoginHashing.config(text = 'Welcome to BirdCipher, {}'.format(username_dbc.get()))
+
+		# elif len(dlt1) > 0 and hash2 != dlt1[0][2]:
+
+		# 	playsound('ContrasenaIncorrectaVI.mp3')
+
+		# elif self.username_entry.get() == '' or self.password_entry.get() == '':
+
+		# 	playsound('DebesIngresarCredenciales.mp3')
+
+		self.miConexion1.commit()
+		self.miConexion1.close()
 
 
 	def define_province_zoom(self, marker):
